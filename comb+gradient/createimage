@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define WIDTH 1000
+#define HEIGHT 1000
+
+int main() {
+    for (int step = 0; step <= 53; step++) {
+        char filename[100];
+        sprintf(filename, "step_%02d.txt", step);
+
+
+        FILE *data = fopen(filename, "r");
+
+  
+        if (data == NULL) {
+            printf("Ошибка открытия файла: %s\n", filename);
+            return 1;
+        }
+
+ 
+        char image_filename[100];
+        sprintf(image_filename, "image_%02d.ppm", step);
+        FILE *image = fopen(image_filename, "wb");
+
+
+        fprintf(image, "P3\n%d %d\n255\n", WIDTH, HEIGHT);
+
+    
+        int value;
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                fscanf(data, "%d", &value);
+
+  
+                value = (int) (((double) value / 100000) * 255);
+
+  
+                fprintf(image, "%d %d %d ", value, value, value);
+            }
+        }
+
+ 
+        fclose(data);
+
+ 
+        fclose(image);
+    }
+
+    return 0;
+}
