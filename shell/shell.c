@@ -12,13 +12,14 @@ void swap(int *a, int *b) {
 
 void shellSort(int arr[], int n) {
   int gap, i, j;
+  int step_counter = 0; 
+
   for (gap = n / 2; gap > 0; gap /= 2) {
     for (i = gap; i < n; i++) {
       for (j = i; j >= gap && arr[j - gap] > arr[j]; j -= gap) {
         swap(&arr[j], &arr[j - gap]);
-
         char filename[20];
-        sprintf(filename, "step_%03d.txt", (int) (gap / 2) * 10 + i);
+        sprintf(filename, "step_%03d.txt", step_counter++);
         FILE *file = fopen(filename, "w");
         for (int k = 0; k < n; k++) {
           fprintf(file, "%d\n", arr[k]);
@@ -28,7 +29,6 @@ void shellSort(int arr[], int n) {
     }
   }
 }
-
 int main() {
   srand(time(NULL));
   int arr[SIZE];
@@ -54,4 +54,7 @@ int main() {
 
   return 0;
 }
+
+
+
 
